@@ -26,7 +26,7 @@
                         <td>{{ucfirst($user->gender)}}</td>
                         <td>{{$user->country->name}}</td>
                         <td>
-                        <a href="#"><button class="btn btn-warning">Details</button></a>
+                        <a href="{{route('user.details', ['id'=>$user->id])}}"><button class="btn btn-warning">Details</button></a>
                         <a href="#"><button class="btn btn-primary">Edit</button></a>
                         <a href="#"><button class="btn btn-danger">Delete</button></a>
                         </td>
