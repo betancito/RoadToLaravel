@@ -1,12 +1,12 @@
 @section('title')
-    Edit User
+    Create User
 @endsection
 <div class="container">
     <div class="justify-content-center pt-5">
-        <a href="{{route('user.index')}}"><button class="btn btn-success">Volver</button></a>
+        <a href="{{ route('user.index') }}"><button class="btn btn-success">Back</button></a>
     </div>
     <div class="card justify-content-center mt-5 p-5">
-        <form wire:submit.prevent="updateUser">
+        <form wire:submit.prevent="createUser">
             <div class="row g-3">
                 <div class="col-md-6">
                     <label for="names" class="form-label">Names</label>
@@ -27,9 +27,9 @@
                     <label for="gender" class="form-label">Gender</label>
                     <select id="gender" class="form-select" wire:model="gender">
                         <option value="">Select Gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="other">Other</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
                     </select>
                     @error('gender') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
@@ -40,7 +40,7 @@
                 </div>
                 <div class="col-md-6">
                     <label for="address" class="form-label">Address</label>
-                    <textarea type="text" class="form-control" id="address" wire:model="address"></textarea>
+                    <textarea class="form-control" id="address" wire:model="address"></textarea>
                     @error('address') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
                 <div class="col-md-12">
@@ -54,7 +54,7 @@
                     @error('country_id') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
                 <div class="col-12">
-                    <button type="submit" class="btn btn-primary col-12">Save changes</button>
+                    <button type="submit" class="btn btn-primary col-12">Create User</button>
                 </div>
             </div>
         </form>

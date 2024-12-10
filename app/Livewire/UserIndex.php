@@ -13,6 +13,16 @@ class UserIndex extends Component
 
     public $names, $lastnames, $email, $gender, $address, $phone, $country;
 
+    public function deleteUser($userId)
+    {
+        $user = User::find($userId);
+
+        if ($user) {
+            $user->delete();
+            session()->flash('message', 'User deleted successfully.');
+        }
+    }
+
     public function render()
     {
         $users = User::with('country')// This is to stablish the country relationship in the database
