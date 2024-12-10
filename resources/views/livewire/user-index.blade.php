@@ -3,7 +3,7 @@
 @endsection
 <div class="container flex justify-content-center align-items-center">
     <div class="flex justify-content-left mt-5 mb-5">
-        <button class="btn btn-success">Create new user</button>
+        <a href="#"><button class="btn btn-success">Create new user</button></a>
     </div>
     <div class="flex pt-5">
         <table class="table table-striped">
@@ -18,20 +18,26 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th>Otto</th>
-                <td>Mark Beta</td>
-                <td>mark@otto.com</td>
-                <td>Male</td>
-                <td>Colombia</td>
-                <td>
-                <button class="btn btn-warning">Details</button>
-                <button class="btn btn-primary">Edit</button>
-                <button class="btn btn-danger">Delete</button>
-                </td>
-              </tr>
+                @foreach ($users as $user)
+                    <tr>
+                        <th>{{$user->names}}</th>
+                        <td>{{$user->lastnames}}</td>
+                        <td>{{$user->email}}</td>
+                        <td>{{ucfirst($user->gender)}}</td>
+                        <td>{{$user->country->name}}</td>
+                        <td>
+                        <a href="#"><button class="btn btn-warning">Details</button></a>
+                        <a href="#"><button class="btn btn-primary">Edit</button></a>
+                        <a href="#"><button class="btn btn-danger">Delete</button></a>
+                        </td>
+                    </tr>
+                @endforeach
             </tbody>
-          </table>
+        </table>
+        <!--pagination-->
+        <div class="mt-4">
+            {{ $users->links() }}
+        </div>
     </div>
 </div>
 
