@@ -13,8 +13,8 @@ class CountrySeeder extends Seeder
     public function run()
     {
         //Add countries JSON file path
-        $countriesPath = database_path('data\countries.json');
-
+        $countriesPath = database_path('data' . DIRECTORY_SEPARATOR . 'countries.json');
+        $this->command->info("Countries JSON file path: " . $countriesPath);
         //Check path existence
         if (!File::exists($countriesPath)) {
             $this->command->error("The JSON countries file does not exist please add one to the data folder.");
