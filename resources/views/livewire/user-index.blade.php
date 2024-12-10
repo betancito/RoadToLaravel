@@ -5,6 +5,11 @@
     <div class="flex justify-content-left mt-5 mb-5">
         <a href="#"><button class="btn btn-success">Create new user</button></a>
     </div>
+    @if (session()->has('message'))
+        <div class="alert alert-success">
+            {{ session('message') }}
+        </div>
+    @endif
     <div class="flex pt-5">
         <table class="table table-striped">
             <thead>
@@ -27,7 +32,7 @@
                         <td>{{$user->country->name}}</td>
                         <td>
                         <a href="{{route('user.details', ['id'=>$user->id])}}"><button class="btn btn-warning">Details</button></a>
-                        <a href="#"><button class="btn btn-primary">Edit</button></a>
+                        <a href="{{route('user.edit', ['id'=>$user->id])}}"><button class="btn btn-primary">Edit</button></a>
                         <a href="#"><button class="btn btn-danger">Delete</button></a>
                         </td>
                     </tr>

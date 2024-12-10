@@ -3,7 +3,7 @@
 @endsection
 <div class="container">
     <div class="justify-content-center pt-5">
-        <button class="btn btn-success">Volver</button>
+        <a href="{{route('user.index')}}"><button class="btn btn-success">Volver</button></a>
     </div>
     <div class="card justify-content-center mt-5 p-5">
         <form class="row g-3">
@@ -36,7 +36,7 @@
               <div class="form-control" id="displayCountry">{{$user->country->name}}</div>
             </div>
             <div class="col-12">
-              <button class="btn btn-primary">Edit</button>
+              <a href="{{route('user.edit', ['id'=>$user->id])}}"><button class="btn btn-primary">Edit</button></a>
             </div>
           </form>
     </div>

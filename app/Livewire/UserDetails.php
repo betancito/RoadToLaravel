@@ -13,6 +13,7 @@ class UserDetails extends Component
     {
         $this->user = User::findOrFail($id);
     }
+
     public function render()
     {
         return view('livewire.user-details')->layout('layouts.app');
