@@ -13,9 +13,10 @@ class UserSeeder extends Seeder
 {
     public function run()
     {
+        //Faekr class from Factory to generate random data
         $faker = Factory::create();
 
-        foreach (range(1, 2000) as $index) {
+        foreach (range(1, 20) as $index) {
             $country = Country::inRandomOrder()->first();
             User::create([
                 'names'    => $faker->firstName(),
