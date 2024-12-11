@@ -2,5 +2,5 @@
     Register
 @endsection
 <div>
-    PENEEE
+    
 </div>
