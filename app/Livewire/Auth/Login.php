@@ -18,13 +18,18 @@ class Login extends Component
             'password' => 'required|min:8',
         ]);
 
-        
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
             
+            $user = Auth::user();
+            
+            if ($user->profile_incomplete) { 
+                return redirect()->route('user.edit', ['id' => $user->id]); 
+            }
+        
             return redirect()->route('user.index');
         } else {
-            
             session()->flash('error', 'Invalid credentials');
+            return redirect()->back();
         }
     }
 

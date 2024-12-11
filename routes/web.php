@@ -16,18 +16,17 @@ Route::get('/', function () {
 Route::get('/login', Login::class)->name('login');
 Route::get('/register', Register::class)->name('register');
 
-
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
+//Middleware to make endpoints private
+Route::middleware(['auth'])->group(function () {
     //UserRoutes
     Route::get('/users/edit/{id}', UserEdit::class)->name('user.edit');
     Route::get('/user/create', UserCreate::class)->name('user.create');
     Route::get('/user/{id}', UserDetails::class)->name('user.details');
     Route::get('/users', UserIndex::class)->name('user.index');
 });
+
+
+
 
 
 

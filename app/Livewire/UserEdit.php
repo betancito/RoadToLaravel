@@ -16,6 +16,7 @@ class UserEdit extends Component
     public $address;
     public $phone;
     public $country_id;
+    public $profile_incomplete;
 
     public function mount($id)
     {
@@ -40,7 +41,7 @@ class UserEdit extends Component
             'gender' => 'required|string',
             'address' => 'required|string',
             'phone' => 'required|string',
-            'country_id' => 'required|exists:countries,id',
+            'country_id' => 'required',
         ]);
 
         $this->user->names = $this->names;
@@ -50,6 +51,7 @@ class UserEdit extends Component
         $this->user->address = $this->address;
         $this->user->phone = $this->phone;
         $this->user->country_id = $this->country_id;
+        $this->user->profile_incomplete = false;
 
 
         $this->user->save();

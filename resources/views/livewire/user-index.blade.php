@@ -4,6 +4,7 @@
 <div class="container flex justify-content-center align-items-center">
     <div class="flex justify-content-left mt-5 mb-5">
         <a href="{{route('user.create')}}"><button class="btn btn-success">Create new user</button></a>
+        <livewire:auth.logout />
     </div>
     @if (session()->has('message'))
         <div class="alert alert-success">
