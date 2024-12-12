@@ -6,6 +6,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Registered;
+use App\Events\UserCreated;
+use App\Events\UserUpdated;
+use App\Events\UserDeleted;
+use App\Services\DiscordNotifier;
 
 class DiscordNotification
 {
@@ -18,106 +22,94 @@ class DiscordNotification
 
     public function handleUserCreated(UserCreated $event): void
     {
-        $this->sendNotification($event->user, 'creado', auth()->user());
+        $this->sendNotification($event->user, 'created', auth()->user());
     }
 
 
     public function handleUserUpdated(UserUpdated $event): void
     {
-        $this->sendNotification($event->user, 'actualizado', auth()->user());
+        $this->sendNotification($event->user, 'updated', auth()->user());
     }
 
 
     public function handleUserDeleted(UserDeleted $event): void
     {
-        $this->sendNotification($event->user, 'eliminado', auth()->user());
-    }
-
-
-    public function handleUserRestore(UserRestore $event): void
-    {
-        $this->sendNotification($event->user, 'restaurado', auth()->user());
+        $this->sendNotification($event->user, 'deleted', auth()->user());
     }
 
 
     public function handleUserLogin(Login $event): void
     {
          $actor = auth()->user() ?: $event->user;
-         $authMethod = session('auth_method', 'Usuario');
-         $this->sendNotification($event->user, 'ingreso', $actor, $authMethod);
+         $authMethod = session('auth_method', 'user');
+         $this->sendNotification($event->user, 'login', $actor, $authMethod);
     }
 
     public function handleRegistered(Registered $event): void
     {
-    $this->sendNotification($event->user, 'registrado', $event->user ?: auth()->user());
+        $this->sendNotification($event->user, 'registered', $event->user);
     }
 
 
-    protected function sendNotification($user, $action, $actor, $authMethod = 'Usuario')
+    protected function sendNotification($user, $action, $actor = 'user')
     {
         $colors = [
-            'creado' => '28a745',
-            'actualizado' => 'ffc107',
-            'eliminado' => 'dc3545',
-            'restaurado' => '17a2b8',
-            'ingreso' => '007bff',
-            'registrado' => '17c671',
+            'created' => '28a745',
+            'updated' => 'ffc107',
+            'deleted' => 'dc3545',
+            'login' => '007bff',
+            'registered' => '17c671',
         ];
 
         $color = $colors[$action] ?? 'ffffff';
 
         $embed = [
-            'title' => "🎲  **Suerte ganadora**  🎲",
-            'description' => "## **Usuario {$action}**",
+            'title' => "☢️  **RoadToLaravel**  ☢️",
+            'description' => "## **User {$action}**",
             'color' => hexdec($color),
             'fields' => [
                 [
-                    'name' => '🔑 **ID de usuario**',
+                    'name' => '🔑 **User Id**',
                     'value' => "`{$user->id}`",
                     'inline' => true,
                 ],
                 [
-                    'name' => '👤 **Nombre de usuario**',
-                    'value' => "`{$user->name}`",
+                    'name' => '🩻 **User Names**',
+                    'value' => "`{$user->names}`",
                     'inline' => true,
                 ],
                 [
-                    'name' => '⚙️ **Rol**',
-                    'value' => $user->getRoleNames()->isEmpty() ? 'Sin rol' : $user->getRoleNames()->implode(', '),
+                    'name' => '🩻 **User Lastnames**',
+                    'value' => "`{$user->lastnames}`",
                     'inline' => true,
                 ],
                 [
-                    'name' => '🔒 **Método de Autenticación**',
-                    'value' => "`{$authMethod}`",
-                    'inline' => true,
-                ],
-                [
-                    'name' => '📧 **Correo Electrónico**',
+                    'name' => '📧 **Email**',
                     'value' => "`{$user->email}`",
                     'inline' => false,
                 ],
                 [
-                    'name' => '🛠️ **Realizado por**',
-                    'value' => "**`{$actor->name}`** con el **`ID: {$actor->id}`**\nrol: **`{$actor->getRoleNames()->implode(', ')}`**",
+                    'name' => '🪛 **Action performed by:**',
+                    'value' => "**`{$actor->names}`** with the **`ID: {$actor->id}`**",
                     'inline' => false,
                 ],
             ],
             'footer' => [
                 'text' => implode(" | ", [
-                    '🔔 Notificación de suerte ganadora',
+                    '🔔 RoadToLaravel notification',
                 ]),
             ],
             'timestamp' =>now()->toIso8601String(),
 
             'thumbnail' => [
-                'url' => 'https://res.cloudinary.com/djmqgrcci/image/upload/v1733437748/suerte_ganadora_logo_complete_dfpfmr.png',
+                'url' => 'https://avatarfiles.alphacoders.com/374/thumb-150-374378.png',
             ],
         ];
 
         try {
             $this->discordNotifier->sendEmbed($embed);
         } catch (\Exception $e) {
-            \Log::error("Error al enviar notificación de Discord: " . $e->getMessage());
+            \Log::error("Error sending discord notification: " . $e->getMessage());
         }
     }
 }

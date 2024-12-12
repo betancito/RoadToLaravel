@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Country;
 use Illuminate\Support\Facades\Auth;
+use App\Events\UserCreated;
 use App\Models\User;
 
 class UserCreate extends Component
@@ -42,17 +43,18 @@ class UserCreate extends Component
         $user->address = $this->address;
         $user->phone = $this->phone;
         $user->country_id = $this->country_id;
-
         $user->save();
 
+        $author = Auth::user();
+
+        event(new UserCreated($user, $author));
+
         session()->flash('message', 'User created successfully!');
-
-
         return redirect()->route('user.index');
     }
 
     public function render()
-    {           
+    {
         $countries = Country::all();
         return view('livewire.user-create', compact('countries'))->layout('layouts.app');
     }

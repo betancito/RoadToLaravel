@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Events\Registered;
 
 class Register extends Component
 {
@@ -14,8 +15,8 @@ class Register extends Component
 
     public function register()
     {
-        
-        
+
+
         $this->validate([
             'names' => 'required|string|max:255',
             'lastnames' => 'required|string|max:255',
@@ -27,16 +28,16 @@ class Register extends Component
 
         $user = new User();
 
-       
+
         $user->names = $this->names;
         $user->lastnames = $this->lastnames;
         $user->gender = $this->gender;
         $user->email = $this->email;
         $user->password = Hash::make($this->password);
-    
-        
+
+        event(new Registered($user));
+
         $user->save();
-        
 
         return redirect()->route('login');
 

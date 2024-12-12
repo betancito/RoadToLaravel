@@ -5,6 +5,9 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\User;
 use App\Models\Country;
+use App\Events\UserUpdated;
+use Illuminate\Support\Facades\Auth;
+
 
 class UserEdit extends Component
 {
@@ -52,12 +55,14 @@ class UserEdit extends Component
         $this->user->phone = $this->phone;
         $this->user->country_id = $this->country_id;
         $this->user->profile_incomplete = false;
-
-
         $this->user->save();
 
+        $user = $this->user;
+        $author = Auth::user();
+        event(new UserUpdated($user, $author));
+
         session()->flash('message', 'User updated successfully!');
-        return redirect()->route('user.index', ['id' => $this->user->id]);
+        return redirect()->route('user.index');
     }
 
     public function render()

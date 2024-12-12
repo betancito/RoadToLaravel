@@ -32,7 +32,7 @@ class DiscordNotifier
         ->post($this->webhookUrl, $data);
 
         if ($response->failed()) {
-            \Log::error('Error al enviar mensaje a Discord', ['response' => $response->body()]);
+            \Log::error('Error sending discord message', ['response' => $response->body()]);
         }
     }
 }
