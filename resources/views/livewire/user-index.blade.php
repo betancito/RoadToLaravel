@@ -18,8 +18,18 @@
             </button>
         </div>
 
+        <div class="d-flex align-items-center">
+            <x-user-info>
+                @section('f-name')
+                 {{ ucfirst(Auth::user()->names[0]) }}
+                @endsection
+                @section('names')
+                {{ ucfirst(Auth::user()->names) }} {{ ucfirst(Auth::user()->lastnames[0]) }}.
+                @endsection
+            </x-user-info>
+            <a href=""><livewire:auth.logout /></a>
+        </div>
         
-        <a href=""><livewire:auth.logout /></a>
     </div>
 
     @if (session()->has('message'))

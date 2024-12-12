@@ -1,8 +1,8 @@
 @section('title')
     Login
 @endsection
-<div class="container d-flex justify-content-center align-items-center">
-    <div class="card justify-content-center mt-5 p-5 col-6">
+<div class="container ">
+    <div class="card justify-content-center mt-5 p-5">
         <form wire:submit.prevent="login">
             <div class="row g-3">
                 <div class="col-md-12 d-flex p-5 mt-5 justify-content-center">
