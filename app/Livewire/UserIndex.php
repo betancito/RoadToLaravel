@@ -11,6 +11,8 @@ class UserIndex extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
 
+    public $searchTerm = '';
+
     public $names, $lastnames, $email, $gender, $address, $phone, $country;
 
     public function deleteUser($userId)
@@ -23,18 +25,30 @@ class UserIndex extends Component
         }
     }
 
-    public function render()
-    {
-        $users = User::with('country')// This is to stablish the country relationship in the database
-            ->when($this->names, fn($query) => $query->where('names', 'like', '%'.$this->names.'%'))
-            ->when($this->lastnames, fn($query) => $query->where('lastnames', 'like', '%'.$this->lastnames.'%'))
-            ->when($this->email, fn($query) => $query->where('email', 'like', '%'.$this->email.'%'))
-            ->when($this->gender, fn($query) => $query->where('gender', $this->gender))
-            ->when($this->country, fn($query) => $query->where('country_id', $this->country))
+    public function search(){
+        
+        if (!empty($this->searchTerm)) {
+            $q = User::query(); 
+            return $q
+            ->where('names', 'like', '%' . $this->searchTerm . '%') 
+            ->orWhere('lastnames', 'like', '%' . $this->searchTerm . '%') 
+            ->orWhere('email', 'like', '%' . $this->searchTerm . '%') 
+            ->orWhere('gender', 'like', '%' . $this->searchTerm . '%') 
+            ->orWhereHas('country', function ($q) {
+                $q->where('name', 'like', '%' . $this->searchTerm . '%');
+            })
             ->paginate(10);
-
-        return view('livewire.user-index', compact('users'))->layout('layouts.app');
+            
+        }else{
+            return User::with('country')->paginate(10);// This is to stablish the country relationship in the database
+        };
     }
 
-    
+
+    public function render()
+    {
+        $users = $this->search();
+
+        return view('livewire.user-index', ['users' => $users])->layout('layouts.app');
+    }
 }

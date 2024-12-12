@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Country;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
 class UserCreate extends Component
@@ -51,7 +52,7 @@ class UserCreate extends Component
     }
 
     public function render()
-    {
+    {           
         $countries = Country::all();
         return view('livewire.user-create', compact('countries'))->layout('layouts.app');
     }

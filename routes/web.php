@@ -18,6 +18,7 @@ Route::get('/register', Register::class)->name('register');
 
 //Middleware to make endpoints private
 Route::middleware(['auth'])->group(function () {
+    
     //UserRoutes
     Route::get('/users/edit/{id}', UserEdit::class)->name('user.edit');
     Route::get('/user/create', UserCreate::class)->name('user.create');
