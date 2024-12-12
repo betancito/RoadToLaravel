@@ -6,6 +6,8 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Livewire\WithPagination;
 use App\Events\UserDeleted;
+use App\Exports\UsersExport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\User;
 
 class UserIndex extends Component
@@ -48,6 +50,10 @@ class UserIndex extends Component
         };
     }
 
+    public function ExportUsers() 
+    {
+        return Excel::download(new UsersExport, 'users.xlsx');
+    }
 
     public function render()
     {
