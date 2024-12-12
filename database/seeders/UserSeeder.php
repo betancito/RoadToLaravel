@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
     {
         $faker = Factory::create();
 
-        foreach (range(1, 2000) as $index) {
+        foreach (range(1, 10) as $index) {
             $country = Country::inRandomOrder()->first();
             User::create([
                 'names'    => $faker->firstName(),

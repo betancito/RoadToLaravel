@@ -6,7 +6,7 @@
         <a href="{{route('user.index')}}"><button class="btn btn-success">Volver</button></a>
     </div>
     <div class="card justify-content-center mt-5 p-5">
-        <form class="row g-3">
+        <div class="row g-3">
             <div class="col-md-6">
               <label for="displayNames" class="form-label">Names</label>
               <div class="form-control" id="displayNames">{{$user->names}}</div> <!-- Static content -->
@@ -38,6 +38,6 @@
             <div class="col-12">
               <a href="{{route('user.edit', ['id'=>$user->id])}}"><button class="btn btn-primary">Edit</button></a>
             </div>
-          </form>
+        </div>
     </div>
 </div>

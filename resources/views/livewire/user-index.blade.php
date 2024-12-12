@@ -2,9 +2,26 @@
     Users
 @endsection
 <div class="container flex justify-content-center align-items-center">
-    <div class="flex justify-content-left mt-5 mb-5">
-        <a href="{{route('user.create')}}"><button class="btn btn-success">Create new user</button></a>
+    <div class="d-flex justify-content-between mt-5 mb-5">
+        
+        <a href="{{ route('user.create') }}">
+            <button class="btn btn-success">Create new user</button>
+        </a>
+        <div class="form-inline d-flex justify">
+            <input type="text" class="form-control mr-2" placeholder="Search..." id="searchInput" wire:model.debounce.500ms="searchTerm"/>
+
+            <button type="submit" class="btn" wire:click='search'>
+                <i class="fa fa-search"></i>
+            </button>
+            <button class="btn btn-link" wire:click="$set('searchTerm', '')">
+                Clear
+            </button>
+        </div>
+
+        
+        <a href=""><livewire:auth.logout /></a>
     </div>
+
     @if (session()->has('message'))
         <div class="alert alert-success">
             {{ session('message') }}
@@ -39,9 +56,14 @@
                 @endforeach
             </tbody>
         </table>
-        <!--pagination-->
-        <div class="mt-4">
-            {{ $users->links() }}
+        <!--pagination and button to export-->
+        <div class="d-flex justify-content-between">
+            <div class="mt-4">
+                {{ $users->links() }}
+            </div>
+            <div class="mt-4">
+                <button>Export</button>
+            </div>
         </div>
     </div>
 </div>
