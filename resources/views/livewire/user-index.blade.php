@@ -62,7 +62,7 @@
                 {{ $users->links() }}
             </div>
             <div class="mt-4">
-                <button>Export</button>
+                <button wire:click="ExportUsers" class="btn btn-success"><i class="fa-regular fa-file-excel me-2"></i>Export</button>
             </div>
         </div>
     </div>
